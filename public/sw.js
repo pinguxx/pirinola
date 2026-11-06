@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pirinola-v6';
+const CACHE_NAME = 'pirinola-v7';
 const ASSETS = [
   '/',
   '/index.html',

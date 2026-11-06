@@ -192,6 +192,8 @@ const state = {
   room: null,
   isSpinning: false,
   spinDir: 1,
+  spinCount: 0,
+  lastSpokenSpin: -99,
   baseRot1: 0,
   baseRot2: 0,
   chargePower: 0.65,
@@ -763,8 +765,16 @@ function animatePirinolaSpin(outcome, updatedRoom) {
       window.pirinolaAudio.playCoinClink(Math.max(1, Math.abs(outcome.net_player_delta)), false);
     }
 
-    const spokenLabel = state.lang === 'es' ? face1.label_es : face1.label_en;
-    window.pirinolaAudio.speakDicho(`${spokenLabel}. ${dicho}`, state.lang);
+    state.spinCount += 1;
+    const isBigMilestone = hasTomaTodo || outcome.miracle_saved || outcome.won_match || outcome.stake_escalated;
+    const canSpeakRoutine = (state.spinCount - state.lastSpokenSpin >= 2) && (Math.random() < 0.25);
+
+    if (isBigMilestone || canSpeakRoutine) {
+      state.lastSpokenSpin = state.spinCount;
+      const spokenLabel = state.lang === 'es' ? face1.label_es : face1.label_en;
+      const textToSpeak = isBigMilestone ? `${spokenLabel}. ${dicho}` : spokenLabel;
+      window.pirinolaAudio.speakDicho(textToSpeak, state.lang);
+    }
 
     if (outcome.stake_escalated) {
       setTimeout(() => {
