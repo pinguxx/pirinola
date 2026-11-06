@@ -11,9 +11,7 @@ pub const PLAYER_COLORS: [&str; 11] = [
     "#14b8a6", "#eab308", "#18181b",
 ];
 
-pub const PLAYER_AVATARS: [&str; 10] = [
-    "🤠", "💀", "🌺", "🦅", "🥊", "🎭", "🌶️", "🎸", "🌵", "👑",
-];
+pub const PLAYER_AVATARS: [&str; 10] = ["🤠", "💀", "🌺", "🦅", "🥊", "🎭", "🌶️", "🎸", "🌵", "👑"];
 
 pub const BOT_PROFILES: [(&str, &str); 9] = [
     ("🤖 Don Ramón Bot", "🤠"),
@@ -855,7 +853,10 @@ impl Room {
                 "¡Se llevó absolutamente todas las fichas ({})!",
                 winner_p.coins
             );
-            let reason_en = format!("Collected every single coin on the table ({})!", winner_p.coins);
+            let reason_en = format!(
+                "Collected every single coin on the table ({})!",
+                winner_p.coins
+            );
             self.finalize_match(&winner_p, reason_es, reason_en);
             return true;
         }
@@ -1003,7 +1004,10 @@ impl Room {
                 player_name: miracle_p.name.clone(),
                 avatar: miracle_p.avatar.clone(),
                 color: miracle_p.color.clone(),
-                detail_es: format!("{} salvadas de último aliento", miracle_p.stats.miracles_saved),
+                detail_es: format!(
+                    "{} salvadas de último aliento",
+                    miracle_p.stats.miracles_saved
+                ),
                 detail_en: format!("{} miracle spin saves", miracle_p.stats.miracles_saved),
             });
         } else {

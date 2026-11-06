@@ -280,7 +280,11 @@ pub async fn handle_ws_connection(socket: WebSocket, state: AppState) {
     let (mut ws_sender, mut ws_receiver) = socket.split();
     let (tx, mut rx) = mpsc::unbounded_channel::<Message>();
 
-    let conn_id = format!("conn_{:08x}{:08x}", rand::random::<u32>(), rand::random::<u32>());
+    let conn_id = format!(
+        "conn_{:08x}{:08x}",
+        rand::random::<u32>(),
+        rand::random::<u32>()
+    );
     let mut current_room_code: Option<String> = None;
     let mut current_player_id: Option<String> = None;
     let mut last_reaction_at: Option<Instant> = None;
@@ -765,13 +769,13 @@ pub async fn handle_ws_connection(socket: WebSocket, state: AppState) {
                     let mut rooms_guard = state.rooms.write().await;
                     if let Some(room) = rooms_guard.get_mut(&code) {
                         if &room.host_id == pid {
-                            room.settings.turn_timer_seconds = match room.settings.turn_timer_seconds
-                            {
-                                0 => 15,
-                                15 => 25,
-                                25 => 40,
-                                _ => 0,
-                            };
+                            room.settings.turn_timer_seconds =
+                                match room.settings.turn_timer_seconds {
+                                    0 => 15,
+                                    15 => 25,
+                                    25 => 40,
+                                    _ => 0,
+                                };
                             room.turn_started_at_secs = current_epoch_secs();
                             room.touch();
                             broadcast_state = Some(json!({
@@ -858,13 +862,7 @@ pub async fn handle_ws_connection(socket: WebSocket, state: AppState) {
 
             ClientMessage::LeaveRoom { room_code } => {
                 let code = room_code.trim().to_uppercase();
-                explicit_leave_room(
-                    &state,
-                    &conn_id,
-                    &code,
-                    current_player_id.as_deref(),
-                )
-                .await;
+                explicit_leave_room(&state, &conn_id, &code, current_player_id.as_deref()).await;
                 current_room_code = None;
                 current_player_id = None;
             }
@@ -885,12 +883,7 @@ pub async fn handle_ws_connection(socket: WebSocket, state: AppState) {
     writer_task.abort();
 }
 
-async fn explicit_leave_room(
-    state: &AppState,
-    conn_id: &str,
-    code: &str,
-    player_id: Option<&str>,
-) {
+async fn explicit_leave_room(state: &AppState, conn_id: &str, code: &str, player_id: Option<&str>) {
     {
         let mut sockets_guard = state.sockets.write().await;
         if let Some(room_map) = sockets_guard.get_mut(code) {
@@ -1058,7 +1051,10 @@ mod tests {
 
     #[test]
     fn test_sanitization_helpers() {
-        assert_eq!(sanitize_name("  <script>Hola</script> ", "Def"), "scriptHola/script");
+        assert_eq!(
+            sanitize_name("  <script>Hola</script> ", "Def"),
+            "scriptHola/script"
+        );
         assert_eq!(sanitize_name("   ", "Jugador"), "Jugador");
         assert_eq!(sanitize_avatar(Some("🤠".to_string()), "🎲"), "🤠");
         assert_eq!(sanitize_avatar(Some("<svg>".to_string()), "🎲"), "🎲");

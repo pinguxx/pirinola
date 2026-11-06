@@ -30,11 +30,11 @@ pub struct FaceMetadata {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SpinPhysics {
-    pub power: f32,        // 0.15 ..= 1.0
-    pub tier: String,      // "suave", "fuerte", "turbo"
-    pub rotations: u8,     // 5 ..= 14 full 360 turns
-    pub duration_ms: u32,  // 1800 ..= 3200 ms
-    pub wobble_deg: u8,    // 10 ..= 24 deg
+    pub power: f32,       // 0.15 ..= 1.0
+    pub tier: String,     // "suave", "fuerte", "turbo"
+    pub rotations: u8,    // 5 ..= 14 full 360 turns
+    pub duration_ms: u32, // 1800 ..= 3200 ms
+    pub wobble_deg: u8,   // 10 ..= 24 deg
 }
 
 impl PirinolaFace {
