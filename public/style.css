@@ -1,0 +1,1769 @@
+/* ==========================================================================
+   PIRINOLA ONLINE 3D • ¡TOMA TODO! — STYLES, 3D HEXAGONAL TOP & THEMES
+   ========================================================================== */
+
+:root,
+[data-theme="jugueteria"],
+[data-theme="fiesta"] {
+  --bg-main: #091326;
+  --bg-grad: radial-gradient(circle at 50% 30%, #172b52 0%, #081021 100%);
+  --card-bg: rgba(16, 30, 58, 0.92);
+  --card-border: #06b6d4;
+  --table-felt: radial-gradient(circle at 50% 48%, #13315c 0%, #0b1d3a 68%, #061024 100%);
+  --ruedo-bg: repeating-radial-gradient(
+    circle at 50% 50%,
+    #78350f 0px,
+    #78350f 14px,
+    #92400e 14px,
+    #92400e 28px,
+    #652b0d 28px,
+    #652b0d 42px
+  );
+  --ruedo-rim: #fbbf24;
+  --accent-gold: #fbbf24;
+  --accent-primary: #ec4899;
+  --accent-secondary: #06b6d4;
+  --text-main: #f8fafc;
+  --text-muted: #bae6fd;
+  --coin-bg: radial-gradient(circle at 35% 35%, #fef08a, #f59e0b 58%, #b45309 100%);
+  --coin-border: #fef9c3;
+}
+
+[data-theme="talavera"],
+[data-theme="muertos"] {
+  --bg-main: #0b1933;
+  --bg-grad: radial-gradient(circle at 50% 30%, #1e3a8a 0%, #0a122c 100%);
+  --card-bg: rgba(20, 42, 92, 0.92);
+  --card-border: #38bdf8;
+  --table-felt: radial-gradient(circle at 50% 48%, #1d4ed8 0%, #1e3a8a 68%, #0f172a 100%);
+  --ruedo-bg: repeating-radial-gradient(
+    circle at 50% 50%,
+    #1e293b 0px,
+    #1e293b 15px,
+    #0f172a 15px,
+    #0f172a 30px,
+    #334155 30px,
+    #334155 45px
+  );
+  --ruedo-rim: #38bdf8;
+  --accent-gold: #facc15;
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #f43f5e;
+  --text-main: #f0f9ff;
+  --text-muted: #bae6fd;
+  --coin-bg: radial-gradient(circle at 35% 35%, #e0f2fe, #38bdf8 58%, #0284c7 100%);
+  --coin-border: #ffffff;
+}
+
+[data-theme="parota"],
+[data-theme="cantina"] {
+  --bg-main: #0c1713;
+  --bg-grad: radial-gradient(circle at 50% 30%, #16382c 0%, #07120e 100%);
+  --card-bg: rgba(19, 42, 34, 0.94);
+  --card-border: #f59e0b;
+  --table-felt: radial-gradient(circle at 50% 48%, #451a03 0%, #290f02 70%, #170801 100%);
+  --ruedo-bg: repeating-radial-gradient(
+    circle at 50% 50%,
+    #3f2312 0px,
+    #3f2312 16px,
+    #522d16 16px,
+    #522d16 32px,
+    #2e180b 32px,
+    #2e180b 48px
+  );
+  --ruedo-rim: #10b981;
+  --accent-gold: #fbbf24;
+  --accent-primary: #10b981;
+  --accent-secondary: #f59e0b;
+  --text-main: #ecfdf5;
+  --text-muted: #a7f3d0;
+  --coin-bg: radial-gradient(circle at 35% 35%, #fef3c7, #d97706 60%, #78350f 100%);
+  --coin-border: #fde68a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--bg-grad);
+  color: var(--text-main);
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+}
+
+button {
+  touch-action: manipulation;
+  font-family: inherit;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Lathe-Turned Wooden Toy Top Stripe */
+.trompo-stripe {
+  height: 7px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #ec4899 0%,
+    #06b6d4 20%,
+    #fbbf24 40%,
+    #10b981 60%,
+    #3b82f6 80%,
+    #ec4899 100%
+  );
+  box-shadow: 0 2px 10px rgba(6, 182, 212, 0.45);
+}
+
+/* Header */
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  background: rgba(15, 7, 4, 0.86);
+  border-bottom: 1.5px solid rgba(241, 196, 15, 0.32);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-icon {
+  font-size: 1.5rem;
+  display: inline-block;
+  animation: gentleSpin 8s linear infinite;
+}
+
+@keyframes gentleSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.brand-titles h1 {
+  font-size: 1.08rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--accent-gold);
+  line-height: 1.05;
+}
+
+.brand-sub {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 10px;
+  padding: 5px 9px;
+  min-height: 34px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.14s, background 0.14s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.icon-btn:hover {
+  background: rgba(241, 196, 15, 0.22);
+}
+
+.lang-btn {
+  background: rgba(241, 196, 15, 0.18);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+/* Screens */
+.screen {
+  display: none;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 10px 12px;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* Resume Active Session Banner */
+.resume-banner {
+  background: rgba(241, 196, 15, 0.16);
+  border: 1.5px solid var(--accent-gold);
+  border-radius: 14px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.resume-text {
+  font-size: 0.88rem;
+}
+
+.resume-code {
+  font-weight: 900;
+  color: var(--accent-gold);
+  letter-spacing: 0.1em;
+}
+
+.resume-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.resume-btn {
+  padding: 6px 12px !important;
+  font-size: 0.82rem !important;
+}
+
+/* Cards & Home Grid */
+.home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 18px;
+  padding: 15px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.52);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  color: var(--accent-gold);
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+  min-width: 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.form-group input[type="text"],
+.form-group select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.42);
+  color: var(--text-main);
+  font-size: 0.94rem;
+  font-weight: 600;
+  outline: none;
+  text-overflow: ellipsis;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+  border-color: var(--accent-gold);
+}
+
+.code-input {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1.45rem !important;
+  letter-spacing: 0.22em;
+  font-weight: 900 !important;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+/* Avatar & Color Pickers */
+.picker-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.color-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.picker-item {
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  height: 38px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: transform 0.14s, border-color 0.14s;
+}
+
+.picker-item.selected {
+  border-color: var(--accent-gold);
+  background: rgba(241, 196, 15, 0.24);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(241, 196, 15, 0.45);
+}
+
+.color-swatch {
+  height: 32px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.42);
+}
+
+/* Tabs */
+.tabs-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tab-btn {
+  padding: 9px;
+  border-radius: 11px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--text-muted);
+  font-weight: 800;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--accent-primary), #c0392b);
+  color: #fff;
+  border-color: var(--accent-gold);
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* Toggles Box */
+.toggles-box {
+  background: rgba(0, 0, 0, 0.34);
+  border: 1px solid rgba(241, 196, 15, 0.3);
+  border-radius: 12px;
+  padding: 8px 11px;
+  margin-bottom: 12px;
+}
+
+.toggles-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  margin-bottom: 5px;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.toggle-row input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.primary-btn {
+  background: linear-gradient(135deg, #f39c12, #d35400);
+  color: #fff;
+  border: 2px solid var(--accent-gold);
+  border-radius: 13px;
+  padding: 11px 16px;
+  font-size: 0.98rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 5px 14px rgba(211, 84, 0, 0.45);
+}
+
+.big-btn {
+  width: 100%;
+  font-size: 1.04rem;
+  padding: 12px;
+}
+
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-main);
+  border: 1.5px solid rgba(241, 196, 15, 0.45);
+  border-radius: 10px;
+  padding: 7px 11px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.danger-btn {
+  background: rgba(231, 76, 60, 0.25);
+  color: #ffdad6;
+  border: 1.5px solid #e74c3c;
+  border-radius: 10px;
+  padding: 7px 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   SCREEN 2: LOBBY
+   ========================================================================== */
+.lobby-card {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.lobby-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.lobby-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.code-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.room-code-big {
+  font-size: 1.65rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: var(--accent-gold);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 4px 12px;
+  border-radius: 11px;
+  border: 1.5px dashed var(--accent-gold);
+}
+
+.rules-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.rule-pill {
+  background: rgba(241, 196, 15, 0.15);
+  border: 1px solid rgba(241, 196, 15, 0.4);
+  color: var(--accent-gold);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.lobby-players-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.bot-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.lobby-players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.lobby-player-item {
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lp-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.lp-info {
+  overflow: hidden;
+}
+
+.lp-name {
+  font-weight: 800;
+  font-size: 0.86rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lp-role {
+  font-size: 0.7rem;
+  color: var(--accent-gold);
+}
+
+.wait-hint {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+}
+
+/* ==========================================================================
+   SCREEN 3: 3D PIRINOLA GAME ARENA
+   ========================================================================== */
+.game-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: calc(100dvh - 64px);
+  min-height: 460px;
+}
+
+.game-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pill-badge {
+  background: rgba(0, 0, 0, 0.48);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.pill-badge.accent {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.pill-btn {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 4px 10px;
+  min-height: 30px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.pill-btn.danger {
+  background: rgba(231, 76, 60, 0.28);
+  border-color: #e74c3c;
+}
+
+/* Central Tabletop Arena */
+.pirinola-arena {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--table-felt);
+  border: 4px solid var(--card-border);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 0 42px rgba(0, 0, 0, 0.75),
+    0 6px 20px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 10px;
+  overflow: hidden;
+}
+
+/* Seated Players Strip */
+.seats-ring {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  z-index: 6;
+}
+
+.seat-card {
+  background: rgba(12, 6, 3, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 4px 9px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.seat-card.active-turn {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 14px rgba(241, 196, 15, 0.65);
+  background: rgba(45, 22, 6, 0.94);
+}
+
+.seat-card.eliminated {
+  opacity: 0.42;
+  filter: grayscale(0.75);
+}
+
+.seat-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.98rem;
+  flex-shrink: 0;
+}
+
+.seat-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.12;
+}
+
+.seat-name {
+  font-size: 0.74rem;
+  font-weight: 800;
+  max-width: 82px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.seat-coins {
+  font-size: 0.76rem;
+  font-weight: 900;
+  color: var(--accent-gold);
+}
+
+.seat-status-tag {
+  font-size: 0.6rem;
+  padding: 1px 4px;
+  border-radius: 5px;
+  font-weight: 800;
+}
+
+.seat-status-tag.miracle {
+  background: #27ae60;
+  color: #fff;
+}
+
+.seat-status-tag.out {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* Table Center Well: El Ruedo Carved Wooden Bowl + El Pozo + 3D Pirinola */
+.table-center-well {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 6px 0;
+  position: relative;
+  z-index: 5;
+}
+
+.ruedo-bowl {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  border-radius: 999px;
+  background: var(--ruedo-bg);
+  border: 4px solid var(--ruedo-rim);
+  box-shadow:
+    inset 0 0 36px rgba(0, 0, 0, 0.78),
+    0 8px 24px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(6, 182, 212, 0.22);
+  transition: transform 0.15s ease;
+}
+
+.pirinola-arena.table-bump {
+  animation: tableBumpShake 0.36s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes tableBumpShake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-5px, -4px) rotate(-0.6deg); }
+  45% { transform: translate(5px, 3px) rotate(0.6deg); }
+  70% { transform: translate(-3px, 2px); }
+}
+
+.wind-puff {
+  position: absolute;
+  font-size: 1.55rem;
+  pointer-events: none;
+  z-index: 25;
+  animation: windSwirl 0.85s ease-out forwards;
+}
+
+@keyframes windSwirl {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5) rotate(-25deg);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--wx, 50px)), calc(-50% + var(--wy, -45px))) scale(1.45) rotate(35deg);
+    opacity: 0;
+  }
+}
+
+/* El Pozo (Central Pot) */
+.pozo-zone {
+  background: rgba(0, 0, 0, 0.48);
+  border: 2px solid var(--accent-gold);
+  border-radius: 999px;
+  padding: 4px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 0 18px rgba(241, 196, 15, 0.25);
+}
+
+.pozo-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pozo-label {
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.pozo-count {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--accent-gold);
+}
+
+.pozo-coins-visual {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  max-width: 120px;
+  flex-wrap: wrap;
+}
+
+.mini-coin {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--coin-bg);
+  border: 1.5px solid var(--coin-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  display: inline-block;
+}
+
+/* ==========================================================================
+   TRUE 3D HEXAGONAL PIRINOLA GEOMETRY & ANIMATION
+   ========================================================================== */
+.tops-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.tops-stage:active {
+  cursor: grabbing;
+}
+
+.top-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pirinola-scene {
+  width: 136px;
+  height: 158px;
+  perspective: 750px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pirinola-tilt {
+  width: 68px;
+  height: 106px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-14deg) rotateZ(0deg);
+  transition: transform 0.35s ease-out;
+}
+
+.pirinola-tilt.wobbling {
+  animation: pirinolaWobble var(--spin-dur, 2300ms) cubic-bezier(0.18, 0.72, 0.25, 1) forwards;
+}
+
+@keyframes pirinolaWobble {
+  0% {
+    transform: rotateX(-8deg) rotateZ(0deg) translateY(-4px);
+  }
+  20% {
+    transform: rotateX(-11deg) rotateZ(6deg) translateY(-2px);
+  }
+  45% {
+    transform: rotateX(-15deg) rotateZ(-9deg);
+  }
+  65% {
+    transform: rotateX(-9deg) rotateZ(13deg);
+  }
+  82% {
+    transform: rotateX(-19deg) rotateZ(-14deg);
+  }
+  92% {
+    transform: rotateX(-12deg) rotateZ(7deg);
+  }
+  100% {
+    transform: rotateX(-15deg) rotateZ(0deg) translateY(0px);
+  }
+}
+
+.pirinola-rotor {
+  width: 68px;
+  height: 88px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+}
+
+/* Top Handle / Spindle */
+.pirinola-spindle {
+  position: absolute;
+  width: 16px;
+  height: 34px;
+  left: 26px;
+  top: -30px;
+  border-radius: 8px 8px 3px 3px;
+  background: linear-gradient(90deg, #b7791f, #ffeaa7 48%, #9c640c);
+  border: 1.5px solid #fff3b0;
+  transform: translateZ(0px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Upper Hexagonal Crown Cap */
+.pirinola-crown {
+  position: absolute;
+  width: 94px;
+  height: 94px;
+  left: -13px;
+  top: -46px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffeaa7 18%, #d35400 62%, #6e2c00 100%);
+  border: 3px solid var(--accent-gold);
+  transform: rotateX(90deg);
+}
+
+/* 6 Rectangular Prism Faces of the Hexagonal Pirinola */
+.pirinola-face {
+  position: absolute;
+  width: 68px;
+  height: 88px;
+  left: 0;
+  top: 0;
+  border: 2.5px solid #ffeaa7;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px 4px;
+  text-align: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.42);
+}
+
+.pirinola-face .face-icon {
+  font-size: 1.38rem;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+.pirinola-face .face-text {
+  font-size: 0.76rem;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+}
+
+/* Hexagonal Prism Angles (60deg increments, apothem 58px) — Default: Artesanal */
+.pirinola-face.face-0 {
+  transform: rotateY(0deg) translateZ(58px);
+  background: linear-gradient(180deg, #ec4899, #9d174d);
+}
+.pirinola-face.face-1 {
+  transform: rotateY(60deg) translateZ(58px);
+  background: linear-gradient(180deg, #f97316, #9a3412);
+}
+.pirinola-face.face-2 {
+  transform: rotateY(120deg) translateZ(58px);
+  background: linear-gradient(180deg, #10b981, #065f46);
+}
+.pirinola-face.face-3 {
+  transform: rotateY(180deg) translateZ(58px);
+  background: linear-gradient(180deg, #06b6d4, #155e75);
+}
+.pirinola-face.face-4 {
+  transform: rotateY(240deg) translateZ(58px);
+  background: linear-gradient(180deg, #6366f1, #312e81);
+}
+.pirinola-face.face-5 {
+  transform: rotateY(300deg) translateZ(58px);
+  background: linear-gradient(180deg, #fbbf24, #b45309);
+  border-color: #fff;
+}
+
+/* 3D Pirinola Skin 2: Talavera Poblana (Royal Blue, Cerulean & Glazed Ivory) */
+[data-top-skin="talavera"] .pirinola-crown {
+  background: radial-gradient(circle, #ffffff 20%, #1d4ed8 62%, #1e3a8a 100%);
+  border-color: #38bdf8;
+}
+[data-top-skin="talavera"] .pirinola-spindle {
+  background: linear-gradient(90deg, #1e3a8a, #e0f2fe 50%, #1d4ed8);
+}
+[data-top-skin="talavera"] .pirinola-tip {
+  border-top-color: #0284c7;
+}
+[data-top-skin="talavera"] .pirinola-face {
+  border-color: #e0f2fe;
+}
+[data-top-skin="talavera"] .pirinola-face.face-0 { background: linear-gradient(180deg, #1d4ed8, #1e3a8a); }
+[data-top-skin="talavera"] .pirinola-face.face-1 { background: linear-gradient(180deg, #0284c7, #0c4a6e); }
+[data-top-skin="talavera"] .pirinola-face.face-2 { background: linear-gradient(180deg, #0ea5e9, #0369a1); }
+[data-top-skin="talavera"] .pirinola-face.face-3 { background: linear-gradient(180deg, #2563eb, #172554); }
+[data-top-skin="talavera"] .pirinola-face.face-4 { background: linear-gradient(180deg, #4f46e5, #1e1b4b); }
+[data-top-skin="talavera"] .pirinola-face.face-5 { background: linear-gradient(180deg, #facc15, #a16207); }
+
+/* 3D Pirinola Skin 3: Obsidiana & Oro (Matte Black Obsidian & Brushed Gold) */
+[data-top-skin="obsidiana"] .pirinola-crown {
+  background: radial-gradient(circle, #fde047 18%, #27272a 60%, #09090b 100%);
+  border-color: #facc15;
+}
+[data-top-skin="obsidiana"] .pirinola-spindle {
+  background: linear-gradient(90deg, #18181b, #facc15 50%, #18181b);
+}
+[data-top-skin="obsidiana"] .pirinola-tip {
+  border-top-color: #eab308;
+}
+[data-top-skin="obsidiana"] .pirinola-face {
+  border-color: #facc15;
+}
+[data-top-skin="obsidiana"] .pirinola-face.face-0,
+[data-top-skin="obsidiana"] .pirinola-face.face-1,
+[data-top-skin="obsidiana"] .pirinola-face.face-2,
+[data-top-skin="obsidiana"] .pirinola-face.face-3,
+[data-top-skin="obsidiana"] .pirinola-face.face-4 {
+  background: linear-gradient(180deg, #27272a, #09090b);
+}
+[data-top-skin="obsidiana"] .pirinola-face.face-5 {
+  background: linear-gradient(180deg, #facc15, #854d0e);
+}
+
+.pirinola-face.winning-face {
+  box-shadow:
+    inset 0 0 18px rgba(255, 255, 255, 0.65),
+    0 0 22px rgba(241, 196, 15, 0.95);
+}
+
+/* Lower Conical Tip */
+.pirinola-tip {
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 16px;
+  bottom: -26px;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 26px solid #d4ac0d;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.6));
+}
+
+.pirinola-shadow {
+  position: absolute;
+  bottom: 4px;
+  width: 82px;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.72) 0%, transparent 72%);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.face-callout {
+  background: rgba(0, 0, 0, 0.65);
+  border: 1.5px solid var(--accent-gold);
+  color: var(--accent-gold);
+  padding: 2px 11px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.swipe-hint {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  opacity: 0.65;
+  letter-spacing: 0.03em;
+  user-select: none;
+  pointer-events: none;
+  transition: opacity 0.25s, color 0.25s;
+}
+
+.swipe-hint.active-turn {
+  opacity: 1;
+  color: var(--accent-gold);
+  animation: swipePulse 1.8s ease-in-out infinite;
+}
+
+@keyframes swipePulse {
+  0%, 100% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+}
+
+/* Outcome & Dicho Callout Banner */
+.outcome-banner {
+  background: rgba(12, 5, 2, 0.86);
+  border: 1.5px solid rgba(241, 196, 15, 0.5);
+  border-radius: 12px;
+  padding: 6px 12px;
+  text-align: center;
+  max-width: 560px;
+  width: 98%;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+.outcome-headline {
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--accent-gold);
+  line-height: 1.2;
+}
+
+.outcome-dicho {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 2px;
+  line-height: 1.2;
+}
+
+/* Flying Coins & Banter Overlay Layers */
+.coin-fx-layer,
+.banter-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.flying-coin {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--coin-bg);
+  border: 2px solid var(--coin-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #3d1c0e;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 0.65s ease;
+}
+
+.banter-bubble {
+  position: absolute;
+  background: #fff;
+  color: #1b0d08;
+  padding: 5px 11px;
+  border-radius: 14px;
+  border: 2.5px solid var(--accent-gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  animation: popBubble 2.6s ease forwards;
+  white-space: nowrap;
+  max-width: 92vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes popBubble {
+  0% { transform: translate(-50%, 10px) scale(0.5); opacity: 0; }
+  12% { transform: translate(-50%, 0) scale(1.05); opacity: 1; }
+  80% { transform: translate(-50%, -8px) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -22px) scale(0.9); opacity: 0; }
+}
+
+/* ==========================================================================
+   SPIN CONTROLS & POWER PRESET PILLS
+   ========================================================================== */
+.spin-dock {
+  background: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 15px;
+  padding: 7px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.spin-status-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.turn-indicator {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: var(--accent-gold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.power-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.power-presets {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.power-preset-btn {
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 7px;
+  padding: 3px 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.power-preset-btn.active {
+  background: rgba(241, 196, 15, 0.25);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.power-track {
+  flex: 1;
+  min-width: 65px;
+  max-width: 150px;
+  height: 9px;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+}
+
+.power-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2ecc71 0%, #f1c40f 55%, #e74c3c 100%);
+  border-radius: 999px;
+  transition: width 0.06s linear;
+}
+
+.nudge-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nudge-btn {
+  background: rgba(6, 182, 212, 0.16);
+  color: var(--text-main);
+  border: 1.5px solid var(--accent-secondary);
+  border-radius: 11px;
+  padding: 7px 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.12s, background 0.12s;
+}
+
+.nudge-btn:hover {
+  background: rgba(6, 182, 212, 0.32);
+}
+
+.nudge-btn:active {
+  transform: scale(0.93);
+}
+
+.spin-btn {
+  background: linear-gradient(135deg, var(--accent-primary), #be185d);
+  color: #fff;
+  border: 2.5px solid var(--accent-gold);
+  border-radius: 14px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 5px 16px rgba(236, 72, 153, 0.45);
+  user-select: none;
+  flex-shrink: 0;
+  transition: transform 0.12s, filter 0.12s;
+}
+
+.spin-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+
+.spin-btn:not(:disabled):active {
+  transform: scale(0.96);
+}
+
+.spin-btn-icon {
+  font-size: 1.45rem;
+}
+
+.spin-btn-texts {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+#spin-btn-main {
+  font-size: 0.92rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.spin-btn-sub {
+  font-size: 0.65rem;
+  opacity: 0.9;
+}
+
+/* Banter Bar */
+.banter-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.banter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.banter-chip {
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.52);
+  color: var(--text-main);
+  border: 1px solid rgba(241, 196, 15, 0.38);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* ==========================================================================
+   MODALS (VICTORY PODIUM, QR CODE, HISTORY, RULES)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  z-index: 90;
+}
+
+.modal-card {
+  background: var(--card-bg);
+  border: 2.5px solid var(--accent-gold);
+  border-radius: 20px;
+  padding: 18px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90dvh;
+  overflow-y: auto;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.75);
+}
+
+.modal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.victory-header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.victory-crown {
+  font-size: 2.2rem;
+}
+
+.victory-reason {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin-top: 4px;
+}
+
+.podium-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.podium-box {
+  background: rgba(0, 0, 0, 0.45);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  padding: 8px;
+  text-align: center;
+}
+
+.podium-box.rank-1 {
+  border-color: var(--accent-gold);
+  background: rgba(241, 196, 15, 0.16);
+}
+
+.awards-heading {
+  font-size: 0.88rem;
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+}
+
+.awards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.award-item {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(241, 196, 15, 0.32);
+  border-radius: 11px;
+  padding: 7px 9px;
+  font-size: 0.78rem;
+}
+
+.victory-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.qr-modal {
+  text-align: center;
+  max-width: 340px;
+}
+
+.qr-box {
+  background: #fff;
+  padding: 14px;
+  border-radius: 14px;
+  display: inline-block;
+  margin: 12px 0;
+}
+
+.qr-code-text {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--accent-gold);
+  letter-spacing: 0.14em;
+  margin-bottom: 10px;
+}
+
+/* Rules Guide */
+.faces-guide-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.face-guide-item {
+  background: rgba(0, 0, 0, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 11px;
+  padding: 8px;
+  font-size: 0.8rem;
+}
+
+.fg-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 0.74rem;
+  margin-bottom: 4px;
+}
+.fg-badge.pon { background: #d35400; color: #fff; }
+.fg-badge.toma { background: #27ae60; color: #fff; }
+.fg-badge.todos { background: #8e44ad; color: #fff; }
+.fg-badge.todo { background: #f1c40f; color: #1b0d08; }
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 55dvh;
+  overflow-y: auto;
+}
+
+.history-row {
+  background: rgba(0, 0, 0, 0.38);
+  border-left: 3px solid var(--accent-gold);
+  padding: 6px 9px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+/* Toasts */
+.toast-container {
+  position: fixed;
+  top: 52px;
+  right: 12px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.toast {
+  background: rgba(20, 9, 4, 0.95);
+  border: 1.5px solid var(--accent-gold);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 11px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* ==========================================================================
+   📱 MOBILE OPTIMIZATIONS (Smartphones <= 768px) — CLEAN SINGLE-SCREEN FIT
+   ========================================================================== */
+@media (max-width: 768px) {
+  .top-header {
+    padding: 5px 8px;
+    gap: 6px;
+  }
+  .brand-wrap {
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .brand-icon {
+    font-size: 1.15rem;
+  }
+  .brand-titles h1 {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .brand-sub,
+  .btn-chip-text,
+  .hide-mobile,
+  .mode-pill {
+    display: none !important;
+  }
+  .header-actions {
+    gap: 4px;
+  }
+  .icon-btn {
+    padding: 4px 6px;
+    min-height: 30px;
+    font-size: 0.78rem;
+    border-radius: 8px;
+  }
+
+  .screen {
+    padding: 4px 8px;
+    overflow-x: hidden;
+  }
+
+  .home-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .card {
+    padding: 12px;
+    border-radius: 14px;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Clean wrapped grid pickers on mobile so all 10 avatars & 11 colors fit inside card */
+  .picker-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .color-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .picker-item {
+    min-width: 0;
+    height: 36px;
+  }
+  .color-swatch {
+    min-width: 0;
+    height: 30px;
+  }
+
+  /* Game layout fits 100% inside mobile viewport without clipping bottom banter bar */
+  .game-layout {
+    height: calc(100dvh - 58px);
+    min-height: 0;
+    gap: 4px;
+    padding-bottom: 4px;
+  }
+
+  .pirinola-arena {
+    padding: 6px 8px;
+    border-radius: 16px;
+    border-width: 3px;
+  }
+
+  /* Single-row horizontal scrollable player strip on mobile */
+  .seats-ring {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .seats-ring::-webkit-scrollbar {
+    display: none;
+  }
+  .seat-card {
+    padding: 3px 8px;
+    border-radius: 10px;
+  }
+  .seat-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 0.88rem;
+  }
+  .seat-name {
+    font-size: 0.7rem;
+    max-width: 68px;
+  }
+  .seat-coins {
+    font-size: 0.72rem;
+  }
+
+  /* Balanced, centered Ruedo Bowl & 3D Pirinola on mobile */
+  .table-center-well {
+    justify-content: center;
+    gap: 8px;
+  }
+  .ruedo-bowl {
+    padding: 12px 20px;
+    border-width: 3.5px;
+    width: min(94%, 300px);
+  }
+  .pozo-zone {
+    padding: 3px 12px;
+  }
+  .pozo-count {
+    font-size: 1.05rem;
+  }
+  .pozo-coins-visual {
+    max-width: 96px;
+  }
+  .mini-coin {
+    width: 10px;
+    height: 10px;
+  }
+
+  .tops-stage {
+    gap: 14px;
+  }
+  .pirinola-scene {
+    width: 122px;
+    height: 142px;
+    transform: scale(0.95);
+  }
+
+  .nudge-actions {
+    gap: 8px;
+    justify-content: center;
+  }
+  .nudge-btn {
+    padding: 5px 12px;
+    font-size: 0.76rem;
+    border-radius: 999px;
+  }
+
+  .outcome-banner {
+    padding: 5px 10px;
+    border-radius: 10px;
+  }
+  .outcome-headline {
+    font-size: 0.8rem;
+  }
+  .outcome-dicho {
+    font-size: 0.7rem;
+  }
+
+  /* Keep Spin Dock as a sleek horizontal row on mobile without overlap */
+  .spin-dock {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .power-track {
+    display: none;
+  }
+  .spin-btn {
+    padding: 8px 14px;
+  }
+  #spin-btn-main {
+    font-size: 0.86rem;
+  }
+  .spin-btn-sub {
+    display: none;
+  }
+
+  .awards-grid,
+  .faces-guide-grid {
+    grid-template-columns: 1fr;
+  }
+}

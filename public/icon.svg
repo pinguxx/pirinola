@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#3d1e10"/>
+      <stop offset="100%" stop-color="#140905"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffeaa7"/>
+      <stop offset="50%" stop-color="#f1c40f"/>
+      <stop offset="100%" stop-color="#b7791f"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c0392b"/>
+      <stop offset="50%" stop-color="#e67e22"/>
+      <stop offset="100%" stop-color="#8e44ad"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="52" fill="url(#bg)" stroke="url(#gold)" stroke-width="8"/>
+  <!-- Spindle -->
+  <rect x="118" y="24" width="20" height="44" rx="10" fill="url(#gold)"/>
+  <ellipse cx="128" cy="26" rx="16" ry="8" fill="#ffeaa7"/>
+  <!-- Hexagonal Body -->
+  <polygon points="68,68 188,68 204,158 52,158" fill="url(#wood)" stroke="url(#gold)" stroke-width="5"/>
+  <!-- Stripe -->
+  <rect x="60" y="96" width="136" height="34" rx="6" fill="#1e0e07" opacity="0.88"/>
+  <text x="128" y="119" font-family="system-ui, sans-serif" font-weight="900" font-size="20" fill="#ffeaa7" text-anchor="middle">TOMA TODO</text>
+  <!-- Conical Tip -->
+  <polygon points="52,158 204,158 128,228" fill="url(#gold)"/>
+  <circle cx="128" cy="228" r="7" fill="#fff"/>
+</svg>

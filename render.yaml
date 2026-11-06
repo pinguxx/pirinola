@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: pirinola-online
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 3000

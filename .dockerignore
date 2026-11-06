@@ -1,0 +1,12 @@
+target/
+.git/
+.gitignore
+.dockerignore
+README.md
+*.md
+.vscode/
+.idea/
+.gemini/
+.claude/
+*.log
+scratch/

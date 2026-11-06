@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="jugueteria" data-top-skin="artesanal">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c192c" />
+  <title>Pirinola Online 3D • ¡Toma Todo!</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- Lathe-Turned Wooden Toy Stripe -->
+  <div class="trompo-stripe" aria-hidden="true"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="top-header">
+    <div class="brand-wrap">
+      <span class="brand-icon">🌀</span>
+      <div class="brand-titles">
+        <h1 id="header-title">PIRINOLA 3D</h1>
+        <span id="header-subtitle" class="brand-sub">¡TOMA TODO! • MULTIJUGADOR</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="btn-install-pwa" type="button" class="icon-btn hidden" title="Install App">📲</button>
+      <button id="btn-top-skin" type="button" class="icon-btn" title="Pintura de la Pirinola / 3D Top Skin">🎡 <span id="skin-label" class="btn-chip-text">Artesanal</span></button>
+      <button id="btn-theme" type="button" class="icon-btn" title="Cambiar Mesa / Table Theme">🎨 <span id="theme-label" class="btn-chip-text">Juguetería</span></button>
+      <button id="btn-voice" type="button" class="icon-btn" title="Voz del Gritón / Voice">🗣️</button>
+      <button id="btn-mute" type="button" class="icon-btn" title="Sonido / Sound">🔊</button>
+      <button id="btn-rules" type="button" class="icon-btn" title="Reglas / Rules">📖</button>
+      <button id="btn-lang" type="button" class="icon-btn lang-btn" title="Switch Language">🌐 EN</button>
+    </div>
+  </header>
+
+  <!-- Toast Notification -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ==================================================================== -->
+  <!-- SCREEN 1: HOME (CREATE OR JOIN ROOM)                                 -->
+  <!-- ==================================================================== -->
+  <main id="screen-home" class="screen active">
+    <!-- Active Session Resume Banner -->
+    <div id="resume-banner" class="resume-banner hidden">
+      <div class="resume-text">
+        <span>🌀 <strong data-i18n="resume_label">Partida activa en sala:</strong> <span id="resume-code" class="resume-code">------</span></span>
+      </div>
+      <div class="resume-actions">
+        <button id="btn-resume-session" type="button" class="primary-btn resume-btn" data-i18n="btn_resume">Reconectar</button>
+        <button id="btn-dismiss-session" type="button" class="secondary-btn resume-btn">✖</button>
+      </div>
+    </div>
+
+    <div class="home-grid">
+      <!-- Player Profile Card -->
+      <section class="card profile-card">
+        <h2 data-i18n="profile_title">🎭 Tu Perfil de Jugador</h2>
+        <div class="form-group">
+          <label for="input-name" data-i18n="your_name_label">Tu Nombre o Apodo</label>
+          <input id="input-name" type="text" maxlength="18" placeholder="Ej. Don Ramón" autocomplete="off" />
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="choose_avatar_label">Elige tu Avatar</label>
+          <div id="avatar-picker" class="picker-grid"></div>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="choose_color_label">Color de tu Ficha</label>
+          <div id="color-picker" class="picker-grid color-grid"></div>
+        </div>
+      </section>
+
+      <!-- Create / Join Room Card -->
+      <section class="card room-action-card">
+        <div class="tabs-bar">
+          <button id="tab-create" type="button" class="tab-btn active" data-i18n="tab_create">🌀 Crear Sala</button>
+          <button id="tab-join" type="button" class="tab-btn" data-i18n="tab_join">🔑 Unirse a Sala</button>
+        </div>
+
+        <!-- Create Room Panel -->
+        <div id="panel-create" class="tab-panel active">
+          <div class="settings-grid">
+            <div class="form-group">
+              <label for="select-mode" data-i18n="mode_label">🏆 Modo de Juego</label>
+              <select id="select-mode">
+                <option value="elimination" data-i18n="mode_elimination">Último en Pie (Eliminación Clásica)</option>
+                <option value="target" data-i18n="mode_target">Meta de Fichas (Carrera al Tesoro)</option>
+                <option value="rounds" data-i18n="mode_rounds">Por Rondas (Partida Rápida)</option>
+              </select>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="select-starting-coins" data-i18n="starting_coins_label">🪙 Fichas Iniciales</label>
+                <select id="select-starting-coins">
+                  <option value="10">10 fichas (Express)</option>
+                  <option value="20" selected>20 fichas (Clásico)</option>
+                  <option value="30">30 fichas (Feria)</option>
+                  <option value="50">50 fichas (Gran Pozo)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="select-stake" data-i18n="base_stake_label">💰 Apuesta Base</label>
+                <select id="select-stake">
+                  <option value="1" selected>1 ficha (Pon 1 / 2)</option>
+                  <option value="2">2 fichas (Pon 2 / 4)</option>
+                  <option value="5">5 fichas (Alto Riesgo)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div id="group-target-coins" class="form-group hidden">
+                <label for="select-target-coins" data-i18n="target_coins_label">🎯 Meta para Ganar</label>
+                <select id="select-target-coins">
+                  <option value="40">40 fichas</option>
+                  <option value="50" selected>50 fichas</option>
+                  <option value="80">80 fichas</option>
+                  <option value="100">100 fichas</option>
+                </select>
+              </div>
+
+              <div id="group-max-rounds" class="form-group hidden">
+                <label for="select-max-rounds" data-i18n="max_rounds_label">🔄 Número de Rondas</label>
+                <select id="select-max-rounds">
+                  <option value="5">5 rondas (Rápido)</option>
+                  <option value="10" selected>10 rondas (Normal)</option>
+                  <option value="15">15 rondas (Largo)</option>
+                  <option value="20">20 rondas (Maratón)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="select-timer" data-i18n="turn_timer_label">⏱️ Tiempo por Turno</label>
+                <select id="select-timer">
+                  <option value="0" selected data-i18n="timer_none">Sin límite (Manual)</option>
+                  <option value="15">15 seg (Rápido)</option>
+                  <option value="25">25 seg (Normal)</option>
+                  <option value="40">40 seg (Relajado)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Feria Twists Toggles -->
+            <div class="toggles-box">
+              <div class="toggles-title" data-i18n="feria_twists_title">🎪 Reglas Especiales de la Feria</div>
+              <label class="toggle-row">
+                <input type="checkbox" id="chk-two-tops" />
+                <span data-i18n="toggle_two_tops">🔥 <strong>Doble Pirinola:</strong> ¡Gira 2 pirinolas al mismo tiempo!</span>
+              </label>
+              <label class="toggle-row">
+                <input type="checkbox" id="chk-miracle" checked />
+                <span data-i18n="toggle_miracle">🍀 <strong>Último Aliento:</strong> 1 giro de milagro al quedar en 0 fichas</span>
+              </label>
+              <label class="toggle-row">
+                <input type="checkbox" id="chk-reante" checked />
+                <span data-i18n="toggle_reante">💰 <strong>Pozo Vivo:</strong> Todos ponen automáticamente cuando el pozo queda en 0</span>
+              </label>
+            </div>
+          </div>
+
+          <button id="btn-create-room" type="button" class="primary-btn big-btn" data-i18n="btn_create_room">
+            🌀 ¡Crear Sala y Jugar!
+          </button>
+        </div>
+
+        <!-- Join Room Panel -->
+        <div id="panel-join" class="tab-panel">
+          <div class="form-group">
+            <label for="input-room-code" data-i18n="room_code_label">Código de la Sala (6 letras)</label>
+            <input id="input-room-code" class="code-input" type="text" maxlength="6" placeholder="PIRI26" autocomplete="off" />
+          </div>
+          <button id="btn-join-room" type="button" class="primary-btn big-btn" data-i18n="btn_join_room">
+            🚀 Entrar a la Mesa
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ==================================================================== -->
+  <!-- SCREEN 2: WAITING LOBBY                                              -->
+  <!-- ==================================================================== -->
+  <main id="screen-lobby" class="screen">
+    <section class="card lobby-card">
+      <div class="lobby-header">
+        <div>
+          <span class="lobby-label" data-i18n="lobby_code_title">CÓDIGO DE SALA</span>
+          <div class="code-badge-row">
+            <span id="lobby-code" class="room-code-big">------</span>
+            <button id="btn-copy-link" type="button" class="secondary-btn" data-i18n="btn_copy_link">🔗 Copiar</button>
+            <button id="btn-qr" type="button" class="secondary-btn">📱 QR</button>
+          </div>
+        </div>
+        <button id="btn-leave-lobby" type="button" class="danger-btn" data-i18n="btn_leave">🚪 Salir</button>
+      </div>
+
+      <div id="lobby-rules-pills" class="rules-pills"></div>
+
+      <div class="lobby-players-header">
+        <h3 id="lobby-players-count">Jugadores en la Mesa (1/10)</h3>
+        <div id="host-bot-controls" class="bot-controls">
+          <button id="btn-add-bot" type="button" class="secondary-btn" data-i18n="btn_add_bot">🤖 +Bot</button>
+          <button id="btn-remove-bot" type="button" class="secondary-btn" data-i18n="btn_remove_bot">➖ Bot</button>
+        </div>
+      </div>
+
+      <div id="lobby-players-list" class="lobby-players-grid"></div>
+
+      <div class="lobby-footer">
+        <p id="lobby-wait-msg" class="wait-hint" data-i18n="waiting_host_msg">
+          Esperando a que el anfitrión inicie la partida...
+        </p>
+        <button id="btn-start-game" type="button" class="primary-btn big-btn" data-i18n="btn_start_game">
+          🌀 ¡PONER AL POZO Y GIRAR!
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================================================================== -->
+  <!-- SCREEN 3: 3D PIRINOLA GAME ARENA                                     -->
+  <!-- ==================================================================== -->
+  <main id="screen-game" class="screen">
+    <div class="game-layout">
+      <!-- Compact Status Bar -->
+      <div class="game-topbar">
+        <div class="topbar-left">
+          <span id="game-room-badge" class="pill-badge">------</span>
+          <span id="game-round-badge" class="pill-badge accent">RONDA 1</span>
+          <span id="game-mode-badge" class="pill-badge mode-pill">ÚLTIMO EN PIE</span>
+        </div>
+        <div class="topbar-right">
+          <button id="btn-cycle-timer" type="button" class="pill-btn" title="Cambiar Temporizador">⏱️ <span id="timer-display">∞</span></button>
+          <button id="btn-open-history" type="button" class="pill-btn" title="Crónica de Giros">📜 <span class="hide-mobile" data-i18n="history_short">Historial</span></button>
+          <button id="btn-leave-game" type="button" class="pill-btn danger">🚪</button>
+        </div>
+      </div>
+
+      <!-- Central Mexican Tabletop Arena -->
+      <div id="pirinola-arena" class="pirinola-arena">
+        <!-- Floating Banter Bubbles Layer -->
+        <div id="banter-layer" class="banter-layer"></div>
+        <!-- Flying Coins Animation Layer -->
+        <div id="coin-fx-layer" class="coin-fx-layer"></div>
+
+        <!-- Players Seated Around the Table -->
+        <div id="seats-ring" class="seats-ring"></div>
+
+        <!-- Center Table Felt: El Ruedo Wooden Spinning Dish + El Pozo + 3D Pirinola Stage -->
+        <div class="table-center-well">
+          <div id="ruedo-bowl" class="ruedo-bowl">
+            <!-- El Pozo (Central Pot) -->
+            <div id="pozo-zone" class="pozo-zone">
+              <div class="pozo-header">
+                <span class="pozo-label" data-i18n="pozo_title">💰 POZO</span>
+                <span id="pozo-count" class="pozo-count">0</span>
+              </div>
+              <div id="pozo-coins-visual" class="pozo-coins-visual"></div>
+            </div>
+
+            <!-- 3D Pirinola Stage (1 or 2 Tops) -->
+            <div id="tops-stage" class="tops-stage" title="Toca o mantén presionado para girar">
+              <!-- Top #1 -->
+              <div id="top-unit-1" class="top-unit">
+                <div id="pirinola-scene-1" class="pirinola-scene">
+                  <div id="pirinola-tilt-1" class="pirinola-tilt">
+                    <div id="pirinola-rotor-1" class="pirinola-rotor">
+                      <div class="pirinola-spindle"></div>
+                      <div class="pirinola-crown"></div>
+                      <div class="pirinola-face face-0" data-face="pon_1">
+                        <span class="face-icon">🪙</span>
+                        <span class="face-text">PON 1</span>
+                      </div>
+                      <div class="pirinola-face face-1" data-face="pon_2">
+                        <span class="face-icon">💸</span>
+                        <span class="face-text">PON 2</span>
+                      </div>
+                      <div class="pirinola-face face-2" data-face="toma_1">
+                        <span class="face-icon">✨</span>
+                        <span class="face-text">TOMA 1</span>
+                      </div>
+                      <div class="pirinola-face face-3" data-face="toma_2">
+                        <span class="face-icon">💰</span>
+                        <span class="face-text">TOMA 2</span>
+                      </div>
+                      <div class="pirinola-face face-4" data-face="todos_ponen">
+                        <span class="face-icon">🙌</span>
+                        <span class="face-text">TODOS PONEN</span>
+                      </div>
+                      <div class="pirinola-face face-5" data-face="toma_todo">
+                        <span class="face-icon">👑</span>
+                        <span class="face-text">TOMA TODO</span>
+                      </div>
+                      <div class="pirinola-tip"></div>
+                    </div>
+                  </div>
+                  <div class="pirinola-shadow"></div>
+                </div>
+                <div id="face-callout-1" class="face-callout">¡LISTA!</div>
+              </div>
+
+              <!-- Top #2 (Shown in Doble Pirinola Mode) -->
+              <div id="top-unit-2" class="top-unit hidden">
+                <div id="pirinola-scene-2" class="pirinola-scene">
+                  <div id="pirinola-tilt-2" class="pirinola-tilt">
+                    <div id="pirinola-rotor-2" class="pirinola-rotor">
+                      <div class="pirinola-spindle"></div>
+                      <div class="pirinola-crown"></div>
+                      <div class="pirinola-face face-0" data-face="pon_1">
+                        <span class="face-icon">🪙</span>
+                        <span class="face-text">PON 1</span>
+                      </div>
+                      <div class="pirinola-face face-1" data-face="pon_2">
+                        <span class="face-icon">💸</span>
+                        <span class="face-text">PON 2</span>
+                      </div>
+                      <div class="pirinola-face face-2" data-face="toma_1">
+                        <span class="face-icon">✨</span>
+                        <span class="face-text">TOMA 1</span>
+                      </div>
+                      <div class="pirinola-face face-3" data-face="toma_2">
+                        <span class="face-icon">💰</span>
+                        <span class="face-text">TOMA 2</span>
+                      </div>
+                      <div class="pirinola-face face-4" data-face="todos_ponen">
+                        <span class="face-icon">🙌</span>
+                        <span class="face-text">TODOS PONEN</span>
+                      </div>
+                      <div class="pirinola-face face-5" data-face="toma_todo">
+                        <span class="face-icon">👑</span>
+                        <span class="face-text">TOMA TODO</span>
+                      </div>
+                      <div class="pirinola-tip"></div>
+                    </div>
+                  </div>
+                  <div class="pirinola-shadow"></div>
+                </div>
+                <div id="face-callout-2" class="face-callout">#2</div>
+              </div>
+            </div>
+            <div id="swipe-hint" class="swipe-hint">
+              ↔️ <span data-i18n="swipe_hint">Desliza la Pirinola para girar</span>
+            </div>
+          </div>
+
+          <!-- Interactive Ruedo Actions: "¡Sóplale!" & "👊 ¡Golpecito!" -->
+          <div class="nudge-actions">
+            <button id="btn-blow" type="button" class="nudge-btn" title="¡Sóplale a la Pirinola!">
+              💨 <span data-i18n="btn_blow">¡Sóplale!</span>
+            </button>
+            <button id="btn-table-tap" type="button" class="nudge-btn" title="¡Golpecito a la Mesa!">
+              👊 <span data-i18n="btn_tap">¡Golpecito!</span>
+            </button>
+          </div>
+
+          <!-- Outcome & Traditional Dicho Callout Banner -->
+          <div id="outcome-banner" class="outcome-banner">
+            <div id="outcome-headline" class="outcome-headline">🌀 ¡Toca GIRAR para lanzar la Pirinola!</div>
+            <div id="outcome-dicho" class="outcome-dicho">Elige tu fuerza o mantén presionado el botón.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spin Controls & Power Meter Dock -->
+      <div id="spin-dock" class="spin-dock">
+        <div class="spin-status-col">
+          <div id="turn-indicator" class="turn-indicator">Turno de: ---</div>
+          <div class="power-bar-wrap">
+            <div class="power-presets">
+              <button type="button" class="power-preset-btn" data-power="0.30">Suave</button>
+              <button type="button" class="power-preset-btn active" data-power="0.65">Fuerte</button>
+              <button type="button" class="power-preset-btn" data-power="0.95">¡Turbo!</button>
+            </div>
+            <div class="power-track">
+              <div id="power-meter-fill" class="power-fill" style="width: 65%"></div>
+            </div>
+          </div>
+        </div>
+
+        <button id="btn-spin" type="button" class="spin-btn">
+          <span class="spin-btn-icon">🌀</span>
+          <div class="spin-btn-texts">
+            <span id="spin-btn-main" data-i18n="btn_spin_main">¡GIRAR!</span>
+            <span id="spin-btn-sub" class="spin-btn-sub" data-i18n="btn_spin_sub">Toca o mantén</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Banter Bar ("Gritos de la Mesa") -->
+      <div id="banter-bar" class="banter-bar">
+        <button type="button" class="banter-chip" data-banter="crown">👑 <span data-i18n="banter_crown">¡Toma todo el pozo!</span></button>
+        <button type="button" class="banter-chip" data-banter="allput">🙌 <span data-i18n="banter_allput">¡Todos ponen!</span></button>
+        <button type="button" class="banter-chip" data-banter="faith">🌀 <span data-i18n="banter_faith">¡Gírale con fe!</span></button>
+        <button type="button" class="banter-chip" data-banter="stingy">🪙 <span data-i18n="banter_stingy">¡No te dé codo!</span></button>
+        <button type="button" class="banter-chip" data-banter="pot">💰 <span data-i18n="banter_pot">¡Venga ese pozo!</span></button>
+        <button type="button" class="banter-chip" data-banter="lucky">🍀 <span data-i18n="banter_lucky">¡Manita santa!</span></button>
+        <button type="button" class="banter-chip" data-banter="hurry">⏰ <span data-i18n="banter_hurry">¡Ándale, gírale!</span></button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL 1: VICTORY PODIUM, AWARDS & SHAREABLE CANVAS CARD              -->
+  <!-- ==================================================================== -->
+  <div id="modal-victory" class="modal-overlay hidden">
+    <div class="modal-card victory-modal">
+      <div class="victory-header">
+        <span class="victory-crown">👑</span>
+        <h2 id="victory-title">¡CAMPEÓN DE LA PIRINOLA!</h2>
+        <p id="victory-reason" class="victory-reason"></p>
+      </div>
+
+      <!-- 1st / 2nd / 3rd Place Podium -->
+      <div id="victory-podium" class="podium-row"></div>
+
+      <!-- 4 Post-Match Telemetry Awards -->
+      <h3 class="awards-heading" data-i18n="awards_heading">🏅 Reconocimientos de la Mesa</h3>
+      <div id="victory-awards" class="awards-grid"></div>
+
+      <!-- Hidden Canvas for Shareable Trophy Certificate -->
+      <canvas id="victory-canvas" width="800" height="1000" class="hidden"></canvas>
+
+      <div class="victory-actions">
+        <button id="btn-share-card" type="button" class="secondary-btn" data-i18n="btn_share_card">📸 Descargar / Compartir Trofeo</button>
+        <button id="btn-play-again" type="button" class="primary-btn" data-i18n="btn_play_again">🔄 Volver a la Sala</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL 2: QR CODE PARTY INVITE                                        -->
+  <!-- ==================================================================== -->
+  <div id="modal-qr" class="modal-overlay hidden">
+    <div class="modal-card qr-modal">
+      <h3 data-i18n="qr_modal_title">📱 Escanea para Entrar a la Mesa</h3>
+      <div id="qr-container" class="qr-box"></div>
+      <p id="qr-room-label" class="qr-code-text"></p>
+      <button id="btn-close-qr" type="button" class="primary-btn" data-i18n="btn_close">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL 3: SPIN CHRONICLE HISTORY                                      -->
+  <!-- ==================================================================== -->
+  <div id="modal-history" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3 data-i18n="history_modal_title">📜 Crónica de Giros</h3>
+        <button id="btn-close-history" type="button" class="icon-btn">✖</button>
+      </div>
+      <div id="history-list" class="history-list"></div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- MODAL 4: TRADITIONAL PIRINOLA RULES & 6 FACES GUIDE                  -->
+  <!-- ==================================================================== -->
+  <div id="modal-rules" class="modal-overlay hidden">
+    <div class="modal-card rules-modal">
+      <div class="modal-top">
+        <h3 data-i18n="rules_modal_title">📖 Cómo Jugar a la Pirinola (Toma Todo)</h3>
+        <button id="btn-close-rules" type="button" class="icon-btn">✖</button>
+      </div>
+      <div class="rules-body">
+        <p data-i18n="rules_intro">
+          La <strong>Pirinola</strong> (o <em>Toma Todo</em>) es el clásico juego mexicano de azar. Al comenzar, cada jugador pone su apuesta base en <strong>El Pozo</strong> central y se turnan para girar el trompo de 6 caras:
+        </p>
+        <div class="faces-guide-grid">
+          <div class="face-guide-item">
+            <span class="fg-badge pon">🪙 PON 1</span>
+            <p data-i18n="rule_pon1">Pones 1 apuesta base de tus fichas al pozo central.</p>
+          </div>
+          <div class="face-guide-item">
+            <span class="fg-badge pon">💸 PON 2</span>
+            <p data-i18n="rule_pon2">Pones 2 apuestas base de tus fichas al pozo central.</p>
+          </div>
+          <div class="face-guide-item">
+            <span class="fg-badge toma">✨ TOMA 1</span>
+            <p data-i18n="rule_toma1">Tomas 1 apuesta base del pozo central para tu montón.</p>
+          </div>
+          <div class="face-guide-item">
+            <span class="fg-badge toma">💰 TOMA 2</span>
+            <p data-i18n="rule_toma2">Tomas 2 apuestas base del pozo central para tu montón.</p>
+          </div>
+          <div class="face-guide-item">
+            <span class="fg-badge todos">🙌 TODOS PONEN</span>
+            <p data-i18n="rule_todos">¡Todos los jugadores activos ponen 1 apuesta base al pozo!</p>
+          </div>
+          <div class="face-guide-item">
+            <span class="fg-badge todo">👑 TOMA TODO</span>
+            <p data-i18n="rule_todo">¡Te llevas absolutamente todas las fichas acumuladas en el pozo!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/qrcode.min.js"></script>
+  <script src="/audio.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
