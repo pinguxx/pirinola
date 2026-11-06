@@ -336,6 +336,35 @@ class PirinolaAudio {
     });
   }
 
+  // Fiery brass chime & rising fanfare for "🔥 ¡Sube la Apuesta!"
+  playStakeEscalationSound() {
+    const ctx = this.ensureContext();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const notes = [392, 523.25, 659.25, 783.99]; // G4, C5, E5, G5
+    notes.forEach((freq, idx) => {
+      const t = now + idx * 0.085;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, t);
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1400, t);
+
+      gain.gain.setValueAtTime(0.001, t);
+      gain.gain.linearRampToValueAtTime(0.12, t + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.34);
+    });
+  }
+
   // Spoken announcer via SpeechSynthesis
   speakDicho(text, lang = 'es') {
     if (this.muted || !this.voiceEnabled || !window.speechSynthesis || !text) return;

@@ -153,6 +153,11 @@ pub enum ClientMessage {
         #[serde(rename = "roomCode")]
         room_code: String,
     },
+    #[serde(rename = "cycle_stake")]
+    CycleStake {
+        #[serde(rename = "roomCode")]
+        room_code: String,
+    },
     #[serde(rename = "send_reaction")]
     SendReaction {
         #[serde(rename = "roomCode")]
@@ -787,6 +792,48 @@ pub async fn handle_ws_connection(socket: WebSocket, state: AppState) {
                 }
                 if let Some(payload) = broadcast_state {
                     broadcast_to_room(&state, &code, &payload).await;
+                }
+            }
+
+            ClientMessage::CycleStake { room_code } => {
+                let code = room_code.trim().to_uppercase();
+                let Some(ref pid) = current_player_id else {
+                    continue;
+                };
+                let mut broadcast_state: Option<Value> = None;
+                let mut new_stake = 1;
+                {
+                    let mut rooms_guard = state.rooms.write().await;
+                    if let Some(room) = rooms_guard.get_mut(&code) {
+                        if &room.host_id == pid {
+                            new_stake = room.cycle_base_stake();
+                            broadcast_state = Some(json!({
+                                "type": "room_updated",
+                                "room": room.serialize_state()
+                            }));
+                        } else {
+                            send_direct(
+                                &tx,
+                                &json!({
+                                    "type": "error",
+                                    "message": "Solo el anfitrión puede ajustar la apuesta."
+                                }),
+                            );
+                            continue;
+                        }
+                    }
+                }
+                if let Some(payload) = broadcast_state {
+                    broadcast_to_room(&state, &code, &payload).await;
+                    broadcast_to_room(
+                        &state,
+                        &code,
+                        &json!({
+                            "type": "stake_changed",
+                            "newStake": new_stake
+                        }),
+                    )
+                    .await;
                 }
             }
 

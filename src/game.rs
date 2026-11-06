@@ -45,6 +45,8 @@ pub struct GameSettings {
     pub miracle_spin: bool, // 1 final spin at 0 coins
     #[serde(default = "default_turn_timer")]
     pub turn_timer_seconds: u64, // 0, 15, 25, 40
+    #[serde(default = "default_stake_escalation")]
+    pub stake_escalation_interval: u32, // 0 = off, 8 = express, 10 = standard, 15 = long
     #[serde(default = "default_table_theme")]
     pub table_theme: String, // "fiesta", "muertos", "cantina"
 }
@@ -76,6 +78,9 @@ fn default_miracle_spin() -> bool {
 fn default_turn_timer() -> u64 {
     0
 }
+fn default_stake_escalation() -> u32 {
+    10
+}
 fn default_table_theme() -> String {
     "jugueteria".to_string()
 }
@@ -92,6 +97,7 @@ impl Default for GameSettings {
             auto_reante: default_auto_reante(),
             miracle_spin: default_miracle_spin(),
             turn_timer_seconds: default_turn_timer(),
+            stake_escalation_interval: default_stake_escalation(),
             table_theme: default_table_theme(),
         }
     }
@@ -113,6 +119,9 @@ impl GameSettings {
         self.max_rounds = self.max_rounds.clamp(3, 50);
         if !matches!(self.turn_timer_seconds, 0 | 15 | 25 | 40) {
             self.turn_timer_seconds = 0;
+        }
+        if !matches!(self.stake_escalation_interval, 0 | 8 | 10 | 15) {
+            self.stake_escalation_interval = 10;
         }
         if !matches!(
             self.table_theme.as_str(),
@@ -189,6 +198,7 @@ pub struct SpinOutcome {
     pub summary_es: String,
     pub summary_en: String,
     pub won_match: bool,
+    pub stake_escalated: Option<u32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -249,6 +259,7 @@ pub struct Room {
     pub last_activity_secs: u64,
     pub turn_started_at_secs: u64,
     pub game_generation: u64,
+    pub total_spins: u64,
 }
 
 pub fn current_epoch_secs() -> u64 {
@@ -314,6 +325,7 @@ impl Room {
             last_activity_secs: now,
             turn_started_at_secs: now,
             game_generation: 0,
+            total_spins: 0,
         }
     }
 
@@ -418,6 +430,7 @@ impl Room {
         self.history.clear();
         self.elimination_counter = 0;
         self.game_generation = self.game_generation.wrapping_add(1);
+        self.total_spins = 0;
 
         for p in &mut self.players {
             p.coins = starting.saturating_sub(stake);
@@ -453,6 +466,7 @@ impl Room {
         self.history.clear();
         self.elimination_counter = 0;
         self.game_generation = self.game_generation.wrapping_add(1);
+        self.total_spins = 0;
 
         let starting = self.settings.starting_coins;
         for p in &mut self.players {
@@ -462,6 +476,18 @@ impl Room {
             p.stats = PlayerStats::default();
         }
         self.touch();
+    }
+
+    pub fn cycle_base_stake(&mut self) -> u32 {
+        self.settings.base_stake = match self.settings.base_stake {
+            1 => 2,
+            2 => 3,
+            3 => 5,
+            5 => 10,
+            _ => 1,
+        };
+        self.touch();
+        self.settings.base_stake
     }
 
     pub fn spin_pirinola(&mut self, power: Option<f32>) -> Result<SpinOutcome, String> {
@@ -505,6 +531,19 @@ impl Room {
         let color = self.players[active_idx].color.clone();
 
         self.players[active_idx].stats.spins_count += 1;
+        self.total_spins += 1;
+
+        let mut stake_escalated = None;
+        if self.settings.stake_escalation_interval > 0
+            && self.total_spins > 0
+            && self
+                .total_spins
+                .is_multiple_of(self.settings.stake_escalation_interval as u64)
+            && self.settings.base_stake < 10
+        {
+            self.settings.base_stake += 1;
+            stake_escalated = Some(self.settings.base_stake);
+        }
 
         let mut transfers: Vec<CoinTransfer> = Vec::new();
 
@@ -715,6 +754,10 @@ impl Room {
             summary_es.push_str(" • ¡Pozo vacío, todos ponen!");
             summary_en.push_str(" • Empty pot, everyone re-antes!");
         }
+        if let Some(new_s) = stake_escalated {
+            summary_es.push_str(&format!(" • 🔥 ¡SUBE LA APUESTA a {}!", new_s));
+            summary_en.push_str(&format!(" • 🔥 STAKES RAISED to {}!", new_s));
+        }
 
         // Advance turn and check round/win conditions
         let completed_orbit = self.advance_to_next_alive_turn();
@@ -743,6 +786,7 @@ impl Room {
             summary_es,
             summary_en,
             won_match,
+            stake_escalated,
         };
 
         self.last_spin = Some(outcome.clone());
@@ -1037,6 +1081,7 @@ impl Room {
             "turnIndex": self.turn_index,
             "currentTurnPlayerId": self.current_turn_player_id(),
             "roundNumber": self.round_number,
+            "totalSpins": self.total_spins,
             "pot": self.pot,
             "lastSpin": self.last_spin,
             "winner": self.winner,
@@ -1233,5 +1278,40 @@ mod tests {
         assert!(room.winner.is_some());
         assert!(!room.podium.is_empty());
         assert_eq!(room.awards.len(), 4);
+    }
+
+    #[test]
+    fn test_automatic_stake_escalation_and_cycle_stake() {
+        let mut settings = GameSettings::default();
+        settings.starting_coins = 50;
+        settings.base_stake = 1;
+        settings.stake_escalation_interval = 8; // escalate every 8 spins
+
+        let mut room = setup_two_player_room(settings);
+        assert_eq!(room.settings.base_stake, 1);
+        assert_eq!(room.total_spins, 0);
+
+        // Spin 7 times: stake should remain 1
+        for _ in 0..7 {
+            let out = room
+                .spin_with_forced_faces(vec![PirinolaFace::Toma1], None)
+                .unwrap();
+            assert_eq!(out.stake_escalated, None);
+            assert_eq!(room.settings.base_stake, 1);
+        }
+
+        // 8th spin: stake should escalate to 2!
+        let out8 = room
+            .spin_with_forced_faces(vec![PirinolaFace::Toma1], None)
+            .unwrap();
+        assert_eq!(out8.stake_escalated, Some(2));
+        assert_eq!(room.settings.base_stake, 2);
+        assert_eq!(room.total_spins, 8);
+
+        // Host manual cycle stake test
+        assert_eq!(room.cycle_base_stake(), 3);
+        assert_eq!(room.cycle_base_stake(), 5);
+        assert_eq!(room.cycle_base_stake(), 10);
+        assert_eq!(room.cycle_base_stake(), 1);
     }
 }

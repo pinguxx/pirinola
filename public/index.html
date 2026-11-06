@@ -142,6 +142,16 @@
                   <option value="40">40 seg (Relajado)</option>
                 </select>
               </div>
+
+              <div class="form-group">
+                <label for="select-escalation" data-i18n="escalation_label">🔥 Subir Apuesta</label>
+                <select id="select-escalation">
+                  <option value="10" selected data-i18n="escalation_10">Cada 10 giros (+1)</option>
+                  <option value="8" data-i18n="escalation_8">Cada 8 giros (Rápido)</option>
+                  <option value="15" data-i18n="escalation_15">Cada 15 giros (Largo)</option>
+                  <option value="0" data-i18n="escalation_0">Desactivado (Fija)</option>
+                </select>
+              </div>
             </div>
 
             <!-- Feria Twists Toggles -->
@@ -234,6 +244,7 @@
           <span id="game-mode-badge" class="pill-badge mode-pill">ÚLTIMO EN PIE</span>
         </div>
         <div class="topbar-right">
+          <button id="btn-host-stake" type="button" class="pill-btn accent" title="Ajustar Apuesta">💰 <span id="stake-display">1</span> <span class="hide-mobile">ficha</span> ⬆️</button>
           <button id="btn-cycle-timer" type="button" class="pill-btn" title="Cambiar Temporizador">⏱️ <span id="timer-display">∞</span></button>
           <button id="btn-open-history" type="button" class="pill-btn" title="Crónica de Giros">📜 <span class="hide-mobile" data-i18n="history_short">Historial</span></button>
           <button id="btn-leave-game" type="button" class="pill-btn danger">🚪</button>

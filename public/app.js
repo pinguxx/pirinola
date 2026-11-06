@@ -49,6 +49,11 @@ const I18N = {
     max_rounds_label: '🔄 Número de Rondas',
     turn_timer_label: '⏱️ Tiempo por Turno',
     timer_none: 'Sin límite (Manual)',
+    escalation_label: '🔥 Subir Apuesta',
+    escalation_10: 'Cada 10 giros (+1)',
+    escalation_8: 'Cada 8 giros (Rápido)',
+    escalation_15: 'Cada 15 giros (Largo)',
+    escalation_0: 'Desactivado (Fija)',
     feria_twists_title: '🎪 Reglas Especiales de la Feria',
     toggle_two_tops: '🔥 <strong>Doble Pirinola:</strong> ¡Gira 2 pirinolas al mismo tiempo!',
     toggle_miracle: '🍀 <strong>Último Aliento:</strong> 1 giro de milagro al quedar en 0 fichas',
@@ -112,6 +117,11 @@ const I18N = {
     max_rounds_label: '🔄 Number of Rounds',
     turn_timer_label: '⏱️ Turn Timer',
     timer_none: 'Unlimited (Manual)',
+    escalation_label: '🔥 Stake Escalation',
+    escalation_10: 'Every 10 spins (+1)',
+    escalation_8: 'Every 8 spins (Fast)',
+    escalation_15: 'Every 15 spins (Long)',
+    escalation_0: 'Disabled (Fixed)',
     feria_twists_title: '🎪 Special Fairground Rules',
     toggle_two_tops: '🔥 <strong>Double Pirinola:</strong> Spin 2 pirinolas at the same time!',
     toggle_miracle: '🍀 <strong>Miracle Spin:</strong> 1 final all-or-nothing spin when hitting 0 coins',
@@ -499,6 +509,16 @@ function handleServerMessage(data) {
       break;
     }
 
+    case 'stake_changed': {
+      window.pirinolaAudio.playStakeEscalationSound();
+      showToast(
+        state.lang === 'es'
+          ? `🔥 La apuesta base se ajustó a ${data.newStake} fichas`
+          : `🔥 Base stake adjusted to ${data.newStake} coins`
+      );
+      break;
+    }
+
     case 'error': {
       if (state.autoRejoining) {
         // Room expired or no longer exists; reset session quietly
@@ -604,6 +624,9 @@ function renderGameArena(room) {
       : `🔄 ${s.max_rounds}R`;
 
   el('timer-display').textContent = s.turn_timer_seconds > 0 ? `${s.turn_timer_seconds}s` : '∞';
+  if (el('stake-display')) {
+    el('stake-display').textContent = s.base_stake;
+  }
 
   // Show/hide 2nd Pirinola in Doble Pirinola mode
   el('top-unit-2').classList.toggle('hidden', !s.two_tops);
@@ -742,6 +765,17 @@ function animatePirinolaSpin(outcome, updatedRoom) {
 
     const spokenLabel = state.lang === 'es' ? face1.label_es : face1.label_en;
     window.pirinolaAudio.speakDicho(`${spokenLabel}. ${dicho}`, state.lang);
+
+    if (outcome.stake_escalated) {
+      setTimeout(() => {
+        window.pirinolaAudio.playStakeEscalationSound();
+        showToast(
+          state.lang === 'es'
+            ? `🔥 ¡SUBE LA APUESTA! La apuesta base ahora es de ${outcome.stake_escalated} fichas`
+            : `🔥 STAKES RAISED! Base stake is now ${outcome.stake_escalated} coins`
+        );
+      }, 450);
+    }
 
     renderRoomState(updatedRoom);
   }, durMs + 80);
@@ -1405,6 +1439,7 @@ window.addEventListener('DOMContentLoaded', () => {
       target_coins: Number(el('select-target-coins').value),
       max_rounds: Number(el('select-max-rounds').value),
       turn_timer_seconds: Number(el('select-timer').value),
+      stake_escalation_interval: Number(el('select-escalation').value || 10),
       two_tops: el('chk-two-tops').checked,
       miracle_spin: el('chk-miracle').checked,
       auto_reante: el('chk-reante').checked,
@@ -1542,7 +1577,20 @@ window.addEventListener('DOMContentLoaded', () => {
     sendSpinCommand();
   });
 
-  // In-game Host Timer Cycling & History
+  // In-game Host Stake Adjustment & Timer Cycling
+  el('btn-host-stake').addEventListener('click', () => {
+    if (!state.room) return;
+    if (state.room.hostId === state.playerId) {
+      sendWs({ type: 'cycle_stake', roomCode: state.room.code });
+    } else {
+      showToast(
+        state.lang === 'es'
+          ? 'ℹ️ Solo el anfitrión puede cambiar la apuesta'
+          : 'ℹ️ Only the host can adjust the stake'
+      );
+    }
+  });
+
   el('btn-cycle-timer').addEventListener('click', () => {
     if (state.room && state.room.hostId === state.playerId) {
       sendWs({ type: 'toggle_timer', roomCode: state.room.code });
