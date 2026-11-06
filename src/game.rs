@@ -1193,11 +1193,13 @@ mod tests {
 
     #[test]
     fn test_miracle_spin_save_and_elimination() {
-        let mut settings = GameSettings::default();
-        settings.starting_coins = 5;
-        settings.base_stake = 2;
-        settings.miracle_spin = true;
-        settings.auto_reante = false;
+        let settings = GameSettings {
+            starting_coins: 5,
+            base_stake: 2,
+            miracle_spin: true,
+            auto_reante: false,
+            ..Default::default()
+        };
 
         let mut room = Room::new(
             "MIRACL".to_string(),
@@ -1251,11 +1253,13 @@ mod tests {
 
     #[test]
     fn test_target_coins_and_rounds_win_modes() {
-        let mut settings = GameSettings::default();
-        settings.game_mode = "target".to_string();
-        settings.starting_coins = 10;
-        settings.base_stake = 2;
-        settings.target_coins = 20;
+        let settings = GameSettings {
+            game_mode: "target".to_string(),
+            starting_coins: 10,
+            base_stake: 2,
+            target_coins: 20,
+            ..Default::default()
+        };
 
         let mut room = Room::new(
             "TARGET".to_string(),
@@ -1282,10 +1286,12 @@ mod tests {
 
     #[test]
     fn test_automatic_stake_escalation_and_cycle_stake() {
-        let mut settings = GameSettings::default();
-        settings.starting_coins = 50;
-        settings.base_stake = 1;
-        settings.stake_escalation_interval = 8; // escalate every 8 spins
+        let settings = GameSettings {
+            starting_coins: 50,
+            base_stake: 1,
+            stake_escalation_interval: 8, // escalate every 8 spins
+            ..Default::default()
+        };
 
         let mut room = setup_two_player_room(settings);
         assert_eq!(room.settings.base_stake, 1);
