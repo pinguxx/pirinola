@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pirinola-v7';
+const CACHE_NAME = 'pirinola-v8';
 const ASSETS = [
   '/',
   '/index.html',
@@ -7,7 +7,8 @@ const ASSETS = [
   '/audio.js',
   '/qrcode.min.js',
   '/icon.svg',
-  '/manifest.json'
+  '/manifest.json',
+  '/feria-bridge.js'
 ];
 
 self.addEventListener('install', (event) => {
