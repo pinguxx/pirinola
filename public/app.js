@@ -1658,7 +1658,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
-      .register('/sw.js?v=8')
+      .register('/sw.js?v=9')
       .then((reg) => reg.update())
       .catch(() => {});
   }
